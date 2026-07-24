@@ -1,0 +1,76 @@
+table User {
+  id integer [primary key]
+  name string
+  lastName string
+  email string unique
+  passwordHash string
+  role string
+}
+
+table Book {
+  id integer [primary key]
+  title string
+  description string
+  publishedYear integer
+  authorId integer
+  price double
+  stock integer
+  coverImage string
+}
+
+table Rating {
+  userId integer [primary key]
+  bookId integer [primary key]
+  rate integer
+}
+
+table Review {
+  id integer [primary key]
+  userId integer 
+  bookId integer 
+  text string
+}
+
+table Author {
+  id integer [primary key]
+  name string
+}
+
+table Genre {
+  id integer [primary key]
+  name string unique
+}
+
+table BookGenre {
+  bookId integer [primary key]
+  genreId integer [primary key]
+}
+
+table Favorites {
+  userId integer [primary key]
+  bookId integer [primary key]
+}
+
+
+ref: "Book"."authorId" > "Author"."id"
+
+
+Ref: "BookGenre"."bookId" < "Book"."id"
+
+Ref: "BookGenre"."genreId" < "Genre"."id"
+
+
+Ref: "Favorites"."userId" < "User"."id"
+
+Ref: "Favorites"."bookId" < "Book"."id"
+
+
+
+Ref: "Rating"."userId" < "User"."id"
+
+Ref: "Book"."id" < "Rating"."bookId"
+
+
+Ref: "Book"."id" < "Review"."bookId"
+
+Ref: "User"."id" < "Review"."userId"
